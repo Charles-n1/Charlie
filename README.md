@@ -3,33 +3,17 @@ Un assistant en tant réel sur le pc
 
 ## How to use ?
 ```bash
-python3 Conversation.py
+python3 main.py #ou python main.py
 ```
 
 ## How to install ?:
 
 Ubuntu:
-1) Installer ollama
-```bash
-curl -fsSL https://ollama.com/install.sh | sh
-```
-2) Le modèle
-```bash
-ollama pull qwen3.5:0.8b
-ollama list #to confirm
-```
 
-3) Installer de quoi l'éxécuter en code.
-```bash
-sudo apt install python3 #If not installed
-python3 -m venv .venv
-source .venv/bin/activate
-pip install ollama
-pip install PyQt6
-```
+0) Requierement
+Télécharger le repo et l'avoir extract et y être
 
-Ou
-
+1) Copier coller
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh && \
 ollama pull qwen3.5:0.8b && \
@@ -39,6 +23,10 @@ source .venv/bin/activate && \
 pip install ollama PyQt6
 ```
 
+2) Lancer
+```bash
+python3 main.py
+```
 Windows:
 
 0) Requierement
