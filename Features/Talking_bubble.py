@@ -17,63 +17,62 @@ def ask_ia(prompt):
 
 
 def define_bar():
-    """Create a bar"""
-    bar = QWidget()
+    """Create the main bar"""
+    bar = QWidget() #crée une barre
 
-    bar.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.FramelessWindowHint) #frameless + onthetopalways
-    # Coordonates position of the bar:
-    bar.setGeometry(X, Y, WIDTH, HEIGHT *2)
+    bar.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.FramelessWindowHint) # frameless + onthetopalways
+    bar.setGeometry(X, Y, WIDTH, HEIGHT *2)     # Coordonates position of the bar:
 
     return bar
 
 
-def define_cursor(bar):
+def define_input(bar):
     """Create text's input field"""
-    cursor = QLineEdit(bar) #crée une entrée
+    cursor = QLineEdit(bar) # Barre transparent d'input (rattaché littéralement dans le parent)
 
-    cursor.resize(WIDTH, HEIGHT) #expand la size de l'entrée
+    cursor.resize(WIDTH, HEIGHT) # Expand pour faire genre deux barres c'est qu'une
 
     cursor.setFocus()
     return cursor
 
 
 def post_input(bar_input):
-    """Read the typed text, then empty the field"""
+    """Récupère, et efface le contenu de la barre"""
     text = bar_input.text()         # récupère
-    bar_input.clear()    # vide tout
+
+    bar_input.clear()               # vide tout
     return text
 
 
-def output(cursor, bar_output):
-    """Configure IA output"""
-    text = post_input(cursor)
+def output(bar_input, bar_output):
+    """Put IA output into bar_output (pour faire genre c'est une seule bar)"""
+    txt = post_input(bar_input)
 
-    # Create a textzone for display
-    ia_output(bar_output, ask_ia(text))
+    ia_output(bar_output, ask_ia(txt)) # Put ia output into the bar
 
 def ia_output(text_area, text):
     return text_area.setText(text) #transforme le tecte de l'ia en texte sur la fenête
 
-def define_bar_output(bar):
+def define_output(bar):
     """Create output bar"""
-    label = QLabel(bar)
+    label = QLabel(bar) # une barre d'output (on peut pas écrire)
 
     label.setGeometry(0, HEIGHT, WIDTH, HEIGHT)
 
     return label
 
-def main():
-    app = QApplication([])
-    bar = define_bar()
-    bar_cursor = define_cursor(bar)
-    bar_output = define_bar_output(bar)
+# def talking_bubble(): #Example main (executable normally)
+#     app = QApplication([])
+#     bar = define_bar()
+#     bar_input = define_input(bar)
+#     bar_output = define_output(bar)
 
-    # Keybind
-    QShortcut(QKeySequence("Return"), bar, lambda: output(bar_cursor, bar_output)) # (Return == Enter)
-    QShortcut(QKeySequence("Escape"), bar, app.quit) # lambda event + () pour limiter les fonctions à plus dd'1 truc de merde
+#     # Keybind
+#     QShortcut(QKeySequence("Return"), bar, lambda: output(bar_input, bar_output)) # (Return == Enter)
+#     # QShortcut(QKeySequence("Escape"), bar, app.quit) # lambda event + () pour limiter les fonctions à plus dd'1 truc de merde
 
-    bar.show()
-    app.exec()
+#     bar.show()
+#     app.exec()
 
-if __name__ == "__main__":
-    main()
+# # if __name__ == "__main__":
+# #     main()

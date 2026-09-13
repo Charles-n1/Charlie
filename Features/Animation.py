@@ -25,9 +25,14 @@ def define_sprite():
 def next_image(sprite, images):                       # 2. vraie fonction (à la place du lambda)
     sprite.setPixmap(QPixmap(next(images)))
 
-def talking_animation(sprite):
+def stop_talking(sprite, timer):
+    timer.stop()
+    base_animation(sprite)
+
+def talking_animation(sprite, ms):
     """Set talking animation"""
     images = cycle(TALKING_SHEET)                 # 1. base, open, base, open...
+    QTimer.singleShot(ms, lambda: stop_talking(sprite, timer)) #Stop if duration > time
     timer = QTimer(sprite)                  # 3. commence le chrono
     timer.start(SPEED)                      # 5. tic toutes les 300 ms
 
@@ -42,17 +47,17 @@ def thinking_animation(sprite):
     """Set thinking animation"""
     sprite.setPixmap(QPixmap(THINKING_SHEET))
 
-def main():
-    app = QApplication([])
+# def main(): #Example main (executable normally)
+#     app = QApplication([])
 
-    sprite = define_sprite()
-    # QShortcut(QKeySequence("Escape"), sprite, app.quit)   # Escape -> quitte le programme
-    base_animation(sprite)
-    thinking_animation(sprite)
-    talking_animation(sprite)
-    sprite.show()
+#     sprite = define_sprite()
+#     # QShortcut(QKeySequence("Escape"), sprite, app.quit)   # Escape -> quitte le programme
+#     base_animation(sprite)
+#     thinking_animation(sprite)
+#     talking_animation(sprite)
+#     sprite.show()
 
-    app.exec()
+#     app.exec()
 
 
 # if __name__ == "__main__":
