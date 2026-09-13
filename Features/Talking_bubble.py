@@ -1,10 +1,13 @@
-import tkinter as tk
+from PyQt6.QtWidgets import *
+from PyQt6.QtGui import *
+from PyQt6.QtCore import *
 import ollama
 
 # --- Settings ---
 WIDTH = 600
 HEIGHT = 50
 Y = 200
+X = 660
 CURSOR_COLOR = "#007FFF"
 IA = "qwen3.5:0.8b"
 
@@ -15,60 +18,62 @@ def ask_ia(prompt):
 
 def define_bar():
     """Create a bar"""
-    bar = tk.Tk()
+    bar = QWidget()
 
-    bar.attributes("-topmost", True)    # always above other windows
-    bar.attributes("-type", "splash")   # Enlève les bordures d'une windows dégeulasse
+    bar.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.FramelessWindowHint) #frameless + onthetopalways
     # Coordonates position of the bar:
-    x = (bar.winfo_screenwidth() - WIDTH) // 2
-    bar.geometry(f"{WIDTH}x{HEIGHT}+{x}+{Y}")
+    bar.setGeometry(X, Y, WIDTH, HEIGHT *2)
 
     return bar
 
 
 def define_cursor(bar):
     """Create text's input field"""
-    cursor = tk.Entry(bar, insertbackground=CURSOR_COLOR)
+    cursor = QLineEdit(bar) #crée une entrée
 
-    cursor.pack(fill="both", expand=True) # Length cursor can travel
+    cursor.resize(WIDTH, HEIGHT) #expand la size de l'entrée
 
-    cursor.focus_force()
+    cursor.setFocus()
     return cursor
 
 
 def post_input(bar_input):
     """Read the typed text, then empty the field"""
-    text = bar_input.get()         # récupère
-    bar_input.delete(0, tk.END)    # vide tout
+    text = bar_input.text()         # récupère
+    bar_input.clear()    # vide tout
     return text
 
 
-def output(event, bar_output):
+def output(cursor, bar_output):
     """Configure IA output"""
-    text = post_input(event.widget)
+    text = post_input(cursor)
 
     # Create a textzone for display
     ia_output(bar_output, ask_ia(text))
 
 def ia_output(text_area, text):
-    return text_area.config(text=text)
+    return text_area.setText(text) #transforme le tecte de l'ia en texte sur la fenête
 
 def define_bar_output(bar):
     """Create output bar"""
-    label = tk.Label(bar)
+    label = QLabel(bar)
 
-    label.pack()
+    label.setGeometry(0, HEIGHT, WIDTH, HEIGHT)
 
     return label
 
-def talking_bubble():
+def main():
+    app = QApplication([])
     bar = define_bar()
     bar_cursor = define_cursor(bar)
     bar_output = define_bar_output(bar)
 
     # Keybind
-    bar.bind("<Return>", lambda event : output(event, bar_output)) # (Return == Enter)
-    bar.bind("<Escape>", lambda event : bar.destroy()) # lambda event + () pour limiter les fonctions à plus dd'1 truc de merde
-    bar.mainloop()
+    QShortcut(QKeySequence("Return"), bar, lambda: output(bar_cursor, bar_output)) # (Return == Enter)
+    QShortcut(QKeySequence("Escape"), bar, app.quit) # lambda event + () pour limiter les fonctions à plus dd'1 truc de merde
 
+    bar.show()
+    app.exec()
 
+if __name__ == "__main__":
+    main()
