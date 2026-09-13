@@ -61,7 +61,7 @@ def define_bar_output(bar):
 
     return label
 
-def main():
+def talking_bubble():
     bar = define_bar()
     bar_cursor = define_cursor(bar)
     bar_output = define_bar_output(bar)
@@ -71,7 +71,4 @@ def main():
     bar.bind("<Escape>", lambda event : bar.destroy()) # lambda event + () pour limiter les fonctions à plus dd'1 truc de merde
     bar.mainloop()
 
-
-if __name__ == "__main__":
-    main()
 

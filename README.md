@@ -19,7 +19,12 @@ ollama pull qwen3.5:0.8b
 ollama list #to confirm
 ```
 
-3) Installer de quoi l'éxécuter en code.
+3) Installer qt6
+```bash
+pip install PyQt6  #temporaire
+```
+
+4) Installer de quoi l'éxécuter en code.
 ```bash
 sudo apt install python3 #If not installed
 python3 -m venv .venv
