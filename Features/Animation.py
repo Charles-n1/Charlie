@@ -4,9 +4,9 @@ from PyQt6.QtCore import *
 from itertools import cycle
 
 # --- Settings ---
-TALKING_SHEET     = ["Sprite/Charlie_base.png", "Sprite/Charlie_open.png"]
-THINKING_SHEET     = "Sprite/Charlie_thinking.png"
-BASE_SHEET     = "Sprite/Charlie_base.png"
+TALKING_SHEET     = ["Assets/Sprite/Charlie_base.png", "Assets/Sprite/Charlie_open.png"]
+THINKING_SHEET     = "Assets/Sprite/Charlie_thinking.png"
+BASE_SHEET     = "Assets/Sprite/Charlie_base.png"
 FRAMELESS   = Qt.WindowType.FramelessWindowHint
 ON_TOP      = Qt.WindowType.WindowStaysOnTopHint
 TRANSPARENT = Qt.WidgetAttribute.WA_TranslucentBackground
@@ -18,7 +18,7 @@ def define_sprite():
 
     sprite.setWindowFlags(FRAMELESS | ON_TOP)
     sprite.setAttribute(TRANSPARENT)
-    image = QPixmap("Sprite/Charlie_base.png")   # 1. je charge le fichier
+    image = QPixmap(BASE_SHEET)   # 1. je charge le fichier
     sprite.setPixmap(image)                      # 2. je le colle dans le label
 
     return sprite
@@ -38,7 +38,6 @@ def talking_animation(sprite, ms):
     timer.start(SPEED)                      # 5. tic toutes les 300 ms
 
     timer.timeout.connect(lambda: next_image(sprite, images))       # 4. à chaque tic -> next_image
-
 
 def base_animation(sprite):
     """Set base animation"""

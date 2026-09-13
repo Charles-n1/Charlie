@@ -1,9 +1,7 @@
 from Features.Animation import *
 from Features.Talking_bubble import *
 from PyQt6.QtMultimedia import *
-import random
-
-SOUNDS = ["ABAHATABAh.mp3", "animal-crossing-marie.mp3", "faaah.mp3", "snoop-dogg.mp3"]
+from Features.Sound import *
 
 def define():
     """Définit le sprite et la barre"""
@@ -19,20 +17,12 @@ def show(sprite, bar):
     sprite.show()
     bar.show()
 
-def sound(sprite):
-    """FAAAAHHHH"""
-    player = QMediaPlayer(sprite)                     # le lecteur (attaché à sprite, sinon supprimé)
-    player.setAudioOutput(QAudioOutput(player))       # la sortie son (haut-parleurs)
-    player.setSource(QUrl.fromLocalFile("Sound/" + random.choice(SOUNDS)))  # un son au hasard
-    player.play()
-
 def on_enter(sprite, bar_input, bar_output):
     """Animation quand on entre"""
     thinking_animation(sprite)            # 1. Charlie réfléchit
     sprite.repaint()                      # 2. force l'affichage tout de suite
     output(bar_input, bar_output)         # 3. lit l'input, demande à l'IA, affiche la réponse
     talking_animation(sprite, 3000)
-    sound(sprite)
 
 def default(sprite, bar_input, bar_output):
     base_animation(sprite)
