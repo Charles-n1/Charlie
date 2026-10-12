@@ -1,46 +1,35 @@
-from Features.Animation import *
-from Features.Talking_bubble import *
-from PyQt6.QtMultimedia import *
-from Features.Sound import *
+from Features.inputs import *
+from Features.output import *
+from Features.sprites import *
+from Features.sounds import *
 
-def define():
-    """Définit le sprite et la barre"""
-    sprite = define_sprite()
-    bar = define_bar()
-    bar_input = define_input(bar)
-    bar_output = define_output(bar)
 
-    return sprite, bar, bar_input, bar_output
+def on_enter(sprite, field, label):
+    """Entrée : thinking, l'IA répond, puis talking 3 s"""
+    set_image(sprite, THINKING)
+    sprite.repaint()                  # affiche thinking tout de suite (l'IA bloque après)
 
-def show(sprite, bar):
-    """Autorise l'affichage de sprite et de bar (une fois, définitif)"""
+    text = field.text()
+    field.clear()
+    label.setText(ask_ia(text))
+
+    talking(sprite, 3000)
+
+
+def app():
+    qt_app = QApplication([])
+
+    sprite = render_sprite()
+    bar, field = speech_bubble()
+    label = output_bar(bar)
+
+    key_enter(bar, lambda: on_enter(sprite, field, label))
+    key_escape(bar, qt_app)
+
     sprite.show()
     bar.show()
+    qt_app.exec()
 
-def on_enter(sprite, bar_input, bar_output):
-    """Animation quand on entre"""
-    thinking_animation(sprite)            # 1. Charlie réfléchit
-    sprite.repaint()                      # 2. force l'affichage tout de suite
-    output(bar_input, bar_output)         # 3. lit l'input, demande à l'IA, affiche la réponse
-    talking_animation(sprite, 3000)
-
-def default(sprite, bar_input, bar_output):
-    base_animation(sprite)
-
-def main():
-    app = QApplication([])
-
-    sprite, bar, bar_input, bar_output = define()
-
-    default(sprite, bar_input, bar_output)
-    QShortcut(QKeySequence("Return"), bar, lambda: on_enter(sprite, bar_input, bar_output))
-    QShortcut(QKeySequence("Escape"), bar, app.quit)
-
-    show(sprite, bar)
-    app.exec() #exec éxécute infiniment toutes les fonctons qui commencent par Q même après la fin de l'éxécution du main
 
 if __name__ == "__main__":
-    main()
-
-
-
+    app()
