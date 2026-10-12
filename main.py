@@ -9,10 +9,8 @@ def on_enter(sprite, field, label):
     set_image(sprite, THINKING)
     sprite.repaint()                  # affiche thinking tout de suite (l'IA bloque après)
 
-    text = field.text()
+    label.setText(ask_ia(field.text()))
     field.clear()
-    label.setText(ask_ia(text))
-
     talking(sprite, 3000)
 
 

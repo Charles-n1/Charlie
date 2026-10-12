@@ -15,9 +15,9 @@ def speech_bubble():
     bar.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
     bar.setGeometry(X, Y, WIDTH, HEIGHT * 2)   # x2 : le champ + la réponse
 
-    field = QLineEdit(bar)                     # dans bar
+    field = QLineEdit(bar)                     # la bar
     field.resize(WIDTH, HEIGHT)
-    field.setFocus()
+    field.setFocus() #direct tapable
 
     return bar, field
 

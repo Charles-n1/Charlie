@@ -5,7 +5,7 @@ from itertools import cycle
 
 # --- Settings ---
 BASE     = "Assets/Sprite/Charlie_base.png"
-OPEN     = "Assets/Sprite/Charlie_open.png"
+OPEN_MOUTH     = "Assets/Sprite/Charlie_open.png"
 THINKING = "Assets/Sprite/Charlie_thinking.png"
 SPEED    = 300   # ms entre deux images quand il parle
 
@@ -21,20 +21,20 @@ def render_sprite():
 
 # --- define_anime ---
 def set_image(sprite, image):
-    """Affiche une image (BASE, OPEN ou THINKING)"""
+    """Affiche une image (BASE, OPEN_MOUTH ou THINKING)"""
     sprite.setPixmap(QPixmap(image))
 
 
 def talking(sprite, ms):
-    """Alterne BASE / OPEN pendant ms, puis revient en BASE"""
-    images = cycle([BASE, OPEN])
+    """Alterne BASE / OPEN_MOUTH pendant ms, puis revient en BASE"""
+    images = cycle([BASE, OPEN_MOUTH])
 
     timer = QTimer(sprite)
     timer.timeout.connect(lambda: set_image(sprite, next(images)))
     timer.start(SPEED)
 
-    QTimer.singleShot(ms, timer.stop)                       # arrête dans ms
-    QTimer.singleShot(ms, lambda: set_image(sprite, BASE))  # et remet BASE
+    QTimer.singleShot(ms, timer.stop) #Qtimer éxécute les argument, au bout de ms (3s)
+    QTimer.singleShot(ms, lambda: set_image(sprite, BASE))
 
 
 def walk(sprite, x, y, ms):
