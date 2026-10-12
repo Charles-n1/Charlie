@@ -3,7 +3,13 @@ Un assistant en tant réel sur le pc
 
 ## How to use ?
 ```bash
+
 python3 main.py #ou python main.py
+
+#ou
+python3 -m venv .venv
+source .venv/bin/activate
+python3 main.py
 ```
 
 ## How to install ?:

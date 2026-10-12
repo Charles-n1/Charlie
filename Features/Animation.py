@@ -47,6 +47,17 @@ def thinking_animation(sprite):
     """Set thinking animation"""
     sprite.setPixmap(QPixmap(THINKING_SHEET))
 
+def test(sprite):
+    walk(sprite)
+
+def walk(sprite, x, y, ms):
+    """Déplace sprite de x, y pixels en ms millisecondes"""
+    anim = QPropertyAnimation(sprite, b"pos", sprite)   # anime la position de sprite
+    anim.setEndValue(sprite.pos() + QPoint(x, y))       # où il doit arriver
+    anim.setDuration(ms)                                # en combien de temps
+    anim.start()
+
+
 # def main(): #Example main (executable normally)
 #     app = QApplication([])
 
